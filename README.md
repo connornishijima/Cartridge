@@ -28,7 +28,7 @@ For fellow chiptune fans, this is a library for parsing VGM into an NES APU emul
 ------------
 # Playing NES Music:
 
-**Cartridge cart**(uint8_t **pulse_1_pin**, uint8_t **pulse_2_pin**, uint8_t **noise_pin**, uint8_t **triangle_pin**, );
+**Cartridge cart**(uint8_t **pulse_1_pin**, uint8_t **pulse_2_pin**, uint8_t **noise_pin**, uint8_t **triangle_pin**);
 
 This tells the library which pins you'd like to attach to the NES "voices". By default, it will use:
 
