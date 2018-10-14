@@ -39,7 +39,7 @@ This tells the library which pins you'd like to attach to the NES "voices". By d
 
 **cart.init**();
 
-Inititalizes ultrasonic SigmaDelta generation on the pins from before pins, allowing for a free, hacky DAC!
+Inititalizes ultrasonic SigmaDelta generation on the pins from before, allowing for a free, hacky DAC!
 
 **cart.play_nes**(uint8_t* **vgm_data**);
 
