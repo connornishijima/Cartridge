@@ -65,7 +65,7 @@ By far, the biggest site to get ".VGM" music from is http://vgmrips.net/. These 
 As of right now, there's two things to note about the Cartridge library.
 
 - It currently does not support the NES DMC for sample playback. (Such as the steel drums from Super Mario Bros. 3) I'm not sure yet if the VGM file format even works with DMC samples.
-- It was written by someone who has never written an emulator before, using the horribly labeled but very interesting APU documentation found at NesDev.com. It's not the best, but it's a great demonstration!
+- It was written by someone who has never written an emulator before, using the horribly inconsistently labeled but very thorough APU documentation found at NesDev.com. It's not the best, but it's a great demonstration!
 
 If you'd like to fork your own version or submit changes here, feel free to!
 
