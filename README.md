@@ -1,5 +1,5 @@
 # Cartridge
-For fellow chiptune fans, this is library for parsing VGM into an NES APU emulation on ESP32!
+For fellow chiptune fans, this is a library for parsing VGM into an NES APU emulation on ESP32!
 
 ----------
 # Contents
