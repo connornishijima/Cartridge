@@ -83,8 +83,9 @@ uint8_t saving[] = {
 };
 
 void setup() {
-  // put your setup code here, to run once:
+  Serial.begin(250000);
   cart.init();
+  cart.frame_counter_cb(test_func);
   
   cart.play_nes(jumping);
   delay(1000);
@@ -96,6 +97,9 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   yield();
+}
+
+void test_func(){ // Called every "1st step" of the NES' Frame Counter during playback
+  Serial.println(millis());
 }
