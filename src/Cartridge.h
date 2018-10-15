@@ -15,6 +15,7 @@ class Cartridge
 	Cartridge(uint8_t p1_p = 12, uint8_t p2_p = 14, uint8_t n_p = 27, uint8_t t_p = 26);
 	void init();
 	void play_nes(uint8_t* music);
+	void frame_counter_cb(void (*action)());
 	
   private:
 	void parse_vgm(uint8_t* music);
@@ -176,6 +177,7 @@ class Cartridge
 	uint32_t VGM_RATE = 0;
 	uint32_t VGM_DATA_OFFSET = 0;
 	uint32_t VGM_NES_APU_CLOCK = 0;
+	
 };
 
 #endif
