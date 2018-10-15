@@ -43,7 +43,11 @@ Inititalizes ultrasonic SigmaDelta generation on the pins from before, allowing 
 
 **cart.play_nes**(uint8_t* **vgm_data**);
 
-This is where the magic happens. When cart.play_nes(music) is called, the ESP32 fires up the fake NES APU, resets it's registers, parses some data from the VGM header, and begins to play your music! Connect the four pins from above to the positive terminal of a speaker and enjoy! **As of right now, this is a blocking function. In the near future I'll be adding a user-callback ISR that can be tied to the internal NES Frame Counter (60-240hz) to allow things like polling buttons or cancelling playback.**
+This is where the magic happens. When cart.play_nes(music) is called, the ESP32 fires up the fake NES APU, resets it's registers, parses some data from the VGM header, and begins to play your music! Connect the four pins from above to the positive terminal of a speaker and enjoy! **This is a blocking function. Use the cart.frame_counter_cb() below to define code to be run during playback.**
+
+**cart.frame_counter_cb**(void **func**);
+
+Used to define a callback function that should be called every "1st step" of the NES' Frame Counter. Set this to a function for polling buttons, printing a quick debug, or anything else that can be run fairly quickly to avoid slowing down the NES APU.
 
 ----------
 # Converting VGZ for use on ESP32
