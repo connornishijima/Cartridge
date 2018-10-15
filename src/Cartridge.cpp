@@ -6,11 +6,17 @@
 
 #include "Cartridge.h"
 
+static void (*fc_callback)(); 
+
 Cartridge::Cartridge(uint8_t p1_p, uint8_t p2_p, uint8_t n_p, uint8_t t_p) {
 	p1_pin = p1_p;
 	p2_pin = p2_p;
 	n_pin = n_p;
 	t_pin = t_p;
+}
+
+void Cartridge::frame_counter_cb(void (*action)()){
+  fc_callback = action;
 }
 
 void Cartridge::init(){
@@ -233,6 +239,7 @@ void Cartridge::sample_audio(){
 
 void Cartridge::render_audio(){
   // four channel
+ 
   sigmaDeltaWrite(p1_channel, p1_output * 12);
   sigmaDeltaWrite(p2_channel, p2_output * 12);
   sigmaDeltaWrite(n_channel, n_output * 6);
@@ -241,11 +248,12 @@ void Cartridge::render_audio(){
   // single channel
   /*
   uint8_t sum = 0;
-  sum+=p1_output;
-  sum+=p2_output;
-  sum+=n_output;
+  sum+=p1_output*0.8;
+  sum+=p2_output*0.8;
+  sum+=n_output*0.7;
   sum+=t_output;
-  sigmaDeltaWrite(t_channel, sum);
+  //sigmaDeltaWrite(t_channel, sum);
+  dacWrite(25,sum*1.25);
   */
 }
 
@@ -335,6 +343,7 @@ void Cartridge::clock_frame_counter(){
     if (apu_cycles == 3728) {
       clock_envelopes();
       clock_linear_counter();
+	  fc_callback();
     }
     else if (apu_cycles == 7456) {
       clock_envelopes();
@@ -358,6 +367,7 @@ void Cartridge::clock_frame_counter(){
     if (apu_cycles == 3728) {
       clock_envelopes();
       clock_linear_counter();
+	  fc_callback();
     }
     else if (apu_cycles == 7456) {
       clock_envelopes();
