@@ -13,6 +13,7 @@
 cart	KEYWORD2
 init	KEYWORD2
 play_nes	KEYWORD2
+frame_counter_cb	KEYWORD2
 
 ###################################
 # Constants (LITERAL1)
