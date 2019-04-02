@@ -692,6 +692,7 @@ uint8_t Cartridge::write_length_counter(uint8_t reg, uint8_t val){
   val = val << 3;
   uint8_t result = r + val;
   write_reg(reg, result);
+  return result;
 }
 
 void Cartridge::clock_sweep_units(){
