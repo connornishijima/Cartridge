@@ -339,7 +339,8 @@ void Cartridge::clock_frame_counter(){
     if (apu_cycles == 3728) {
       clock_envelopes();
       clock_linear_counter();
-	  fc_callback();
+      if (fc_callback)
+	      fc_callback();
     }
     else if (apu_cycles == 7456) {
       clock_envelopes();
@@ -363,7 +364,8 @@ void Cartridge::clock_frame_counter(){
     if (apu_cycles == 3728) {
       clock_envelopes();
       clock_linear_counter();
-	  fc_callback();
+      if (fc_callback)
+	      fc_callback();
     }
     else if (apu_cycles == 7456) {
       clock_envelopes();
