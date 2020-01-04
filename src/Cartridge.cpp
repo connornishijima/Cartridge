@@ -138,7 +138,7 @@ void Cartridge::read_vgm_header(uint8_t* music){
   VGM_RATE = get_32_bit(music, 0x24);
   VGM_DATA_OFFSET = get_32_bit(music, 0x34) + 0x34;
   VGM_NES_APU_CLOCK = get_32_bit(music, 0x84);
-  VGM_LOOP_OFFSET = get_32_bit(music, 0x1C) - 0x1C;
+  VGM_LOOP_OFFSET = get_32_bit(music, 0x1C) + 0x1C;
 
   vgm_index = VGM_DATA_OFFSET;
 }
