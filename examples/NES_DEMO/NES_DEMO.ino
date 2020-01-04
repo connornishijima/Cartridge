@@ -93,7 +93,7 @@ void setup() {
   delay(1000);
   cart.play_nes(teleporting);
   delay(1000);
-  cart.play_nes(saving);
+  cart.play_nes(saving, true); // add true argument to make song loop
 }
 
 void loop() {
