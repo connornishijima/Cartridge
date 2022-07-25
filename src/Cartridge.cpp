@@ -9,10 +9,10 @@
 static void (*fc_callback)(); 
 
 Cartridge::Cartridge(uint8_t p1_p, uint8_t p2_p, uint8_t n_p, uint8_t t_p) {
-	p1_pin = p1_p;
-	p2_pin = p2_p;
-	n_pin = n_p;
-	t_pin = t_p;
+  p1_pin = p1_p;
+  p2_pin = p2_p;
+  n_pin = n_p;
+  t_pin = t_p;
 }
 
 void Cartridge::frame_counter_cb(void (*action)()){
@@ -37,7 +37,7 @@ void Cartridge::init(){
   sigmaDeltaWrite(t_channel, 0);
 }
 
-void Cartridge::play_nes(uint8_t* music){
+void Cartridge::play_nes(uint8_t* music, bool looping){
   NES_PLAYING = true;
   read_vgm_header(music);
 
@@ -57,7 +57,7 @@ void Cartridge::play_nes(uint8_t* music){
 
     if (t_now >= next_audio) {
       next_audio += audio_period;
-      parse_vgm(music);
+      parse_vgm(music, looping);
 
       audio_counter++;
       if (audio_counter >= audio_divisor) {
@@ -71,7 +71,7 @@ void Cartridge::play_nes(uint8_t* music){
   }
 }
 
-void Cartridge::parse_vgm(uint8_t* music){
+void Cartridge::parse_vgm(uint8_t* music, bool looping){
   uint8_t extra = 0;
   if (vgm_wait == 0) {
     uint8_t command = music[vgm_index];
@@ -89,9 +89,26 @@ void Cartridge::parse_vgm(uint8_t* music){
     else if (command == 0x63) { // Wait 882 samples
       vgm_wait = 882;
     }
-    else if (command == 0x66) { // End of Sound Data
+    else if (command == 0x67 && music[vgm_index + 1] == 0x66) { // Start of data block
+      uint32_t block_size = (music[vgm_index + 3]      ) + 
+                  (music[vgm_index + 4] <<  8) + 
+                  (music[vgm_index + 5] << 16) + 
+                  (music[vgm_index + 6] << 24); 
+      vgm_index += block_size - 1;  // Basically ignore all data block contents
+    }
+    else if (command == 0x66 || vgm_index == VGM_EOF_OFFSET){
       Serial.println("END");
-      reset_nes();
+      if(looping) {
+        if(VGM_LOOP_OFFSET == 0) {  // Loop offset is not built into file
+          vgm_index = VGM_DATA_OFFSET - 1;  // Restart the song entirely
+        }
+        else {
+          vgm_index = VGM_LOOP_OFFSET - 1;  // Music loops, reset to looping byte
+        }
+      }
+      else {
+        reset_nes();  // Reset if loop opt-out
+      }
     }
     else if (command >= 0x70 && command < 0x80) { // Wait (0x7)n+1 samples
       uint8_t result = command;
@@ -121,6 +138,7 @@ void Cartridge::read_vgm_header(uint8_t* music){
   VGM_RATE = get_32_bit(music, 0x24);
   VGM_DATA_OFFSET = get_32_bit(music, 0x34) + 0x34;
   VGM_NES_APU_CLOCK = get_32_bit(music, 0x84);
+  VGM_LOOP_OFFSET = get_32_bit(music, 0x1C) + 0x1C;
 
   vgm_index = VGM_DATA_OFFSET;
 }
@@ -343,7 +361,7 @@ void Cartridge::clock_frame_counter(){
     if (apu_cycles == 3728) {
       clock_envelopes();
       clock_linear_counter();
-	  fc_callback();
+    fc_callback();
     }
     else if (apu_cycles == 7456) {
       clock_envelopes();
@@ -367,7 +385,7 @@ void Cartridge::clock_frame_counter(){
     if (apu_cycles == 3728) {
       clock_envelopes();
       clock_linear_counter();
-	  fc_callback();
+    fc_callback();
     }
     else if (apu_cycles == 7456) {
       clock_envelopes();

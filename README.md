@@ -41,9 +41,9 @@ This tells the library which pins you'd like to attach to the NES "voices". By d
 
 Inititalizes ultrasonic SigmaDelta generation on the pins from before, allowing for a free, hacky DAC!
 
-**cart.play_nes**(uint8_t* **vgm_data**);
+**cart.play_nes**(uint8_t* **vgm_data**, bool **looping**);
 
-This is where the magic happens. When cart.play_nes(music) is called, the ESP32 fires up the fake NES APU, resets it's registers, parses some data from the VGM header, and begins to play your music! Connect the four pins from above to the positive terminal of a speaker and enjoy! **This is a blocking function. Use the cart.frame_counter_cb() below to define code to be run during playback.**
+This is where the magic happens. When cart.play_nes(music) is called, the ESP32 fires up the fake NES APU, resets it's registers, parses some data from the VGM header, and begins to play your music! Connect the four pins from above to the positive terminal of a speaker and enjoy! Some tracks have loops built in - set *looping* to true and the track will restart after it ends, either at the beginning or a defined middle portion of the song. **This is a blocking function. Use the cart.frame_counter_cb() below to define code to be run during playback.**
 
 **cart.frame_counter_cb**(void **func**);
 
