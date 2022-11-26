@@ -169,7 +169,6 @@ void Cartridge::reset_nes(){
   p1_decay_counter = 0;
   p1_volume = 0;
   p1_channel = 0;
-  p1_pin = 12;
 
   // Pulse 2 Variables
   p2_output = 0;
@@ -180,7 +179,6 @@ void Cartridge::reset_nes(){
   p2_decay_counter = 0;
   p2_volume = 0;
   p2_channel = 1;
-  p2_pin = 14;
 
   // Noise Variables
   n_output = 0;
@@ -192,7 +190,6 @@ void Cartridge::reset_nes(){
   n_xor = 0;
   n_lsfr = 1;
   n_channel = 2;
-  n_pin = 27;
 
   // Triangle Variables
   t_output = 0;
@@ -201,7 +198,6 @@ void Cartridge::reset_nes(){
   t_length_counter = 0;
   t_linear_counter = 0;
   t_channel = 3;
-  t_pin = 26;
 
   vgm_index = 0;
   vgm_wait = 0;
@@ -361,7 +357,9 @@ void Cartridge::clock_frame_counter(){
     if (apu_cycles == 3728) {
       clock_envelopes();
       clock_linear_counter();
-    fc_callback();
+
+      if (fc_callback)
+	      fc_callback();
     }
     else if (apu_cycles == 7456) {
       clock_envelopes();
@@ -385,7 +383,9 @@ void Cartridge::clock_frame_counter(){
     if (apu_cycles == 3728) {
       clock_envelopes();
       clock_linear_counter();
-    fc_callback();
+      
+      if (fc_callback)
+	      fc_callback();
     }
     else if (apu_cycles == 7456) {
       clock_envelopes();
