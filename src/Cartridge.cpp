@@ -20,20 +20,16 @@ void Cartridge::frame_counter_cb(void (*action)()){
 }
 
 void Cartridge::init(){
-  sigmaDeltaSetup(p1_channel, 88200);
-  sigmaDeltaAttachPin(p1_pin, p1_channel);
+  sigmaDeltaSetup(p1_pin, p1_channel, 88200);
   sigmaDeltaWrite(p1_channel, 0);
 
-  sigmaDeltaSetup(p2_channel, 88200);
-  sigmaDeltaAttachPin(p2_pin, p2_channel);
+  sigmaDeltaSetup(p2_pin, p2_channel, 88200);
   sigmaDeltaWrite(p2_channel, 0);
 
-  sigmaDeltaSetup(n_channel, 88200);
-  sigmaDeltaAttachPin(n_pin, n_channel);
+  sigmaDeltaSetup(n_pin, n_channel, 88200);
   sigmaDeltaWrite(n_channel, 0);
 
-  sigmaDeltaSetup(t_channel, 88200);
-  sigmaDeltaAttachPin(t_pin, t_channel);
+  sigmaDeltaSetup(t_pin, t_channel, 88200);
   sigmaDeltaWrite(t_channel, 0);
 }
 
